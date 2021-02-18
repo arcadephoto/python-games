@@ -39,7 +39,7 @@ class Game:
             self.hand2.append(self.deck.cards.pop())
 
     def shuffle_hand(self):
-        print("Shuffling both hands!")
+        print(f"{bcolors.OKCYAN}SHUFFLING BOTH HANDS!{bcolors.ENDC}")
         random.shuffle(self.player1.hand)
         random.shuffle(self.player2.hand)
 
@@ -61,6 +61,21 @@ class Deck:
         random.shuffle(self.cards)
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+
+
+
 
 def compare_cards():
     at_war = False
@@ -75,11 +90,17 @@ def compare_cards():
         game.player2.hand.insert(0, inplay.card1)
         game.player2.hand.insert(0, inplay.card2)
     if inplay.card1.value == inplay.card2.value:
-        print("WAR!")
+        print(f"{bcolors.WARNING}!!!!!!WAR!!!!!!{bcolors.ENDC}")
         at_war = True
         game.player1.hand.append(inplay.card1)
         game.player2.hand.append(inplay.card2)
         do_war()
+    if len(game.player1.hand) < 1:
+        print(f"{bcolors.OKGREEN}{game.player2.name} has won!{bcolors.ENDC}")
+        return
+    if len(game.player2.hand) < 1:
+        print(f"{bcolors.OKGREEN}{game.player1.name} has won!{bcolors.ENDC}")
+        return
     if at_war == False:
         game.count = game.count +1
         if game.count == 26:
@@ -92,10 +113,10 @@ def compare_cards():
 
 def do_war():
     if len(game.player1.hand) < 4:
-        print(game.player1.name, "doesn't have enough cards for War.", game.player2.name, "wins!")
+        print(f"{bcolors.OKGREEN}{game.player1.name} doesn't have enough cards for War. {game.player2.name} wins!{bcolors.ENDC}")
         return
     if len(game.player2.hand) < 4:
-        print(game.player2.name, "doesn't have enough cards for War.", game.player1.name, "wins!")
+        print(f"{bcolors.OKGREEN}{game.player2.name} doesn't have enough cards for War. {game.player1.name} wins!{bcolors.ENDC}")
         return
     for i in range(1, 5):
         warchest.insert(0, game.player1.hand.pop())
@@ -124,10 +145,10 @@ def do_war():
         at_war = True
         do_war()
     if len(game.player1.hand) < 1:
-        print(game.player2.name, "has won!")
+        print(f"{bcolors.OKGREEN}{game.player2.name} has won!{bcolors.ENDC}")
         return
     if len(game.player2.hand) < 1:
-        print(game.player1.name, "has won!")
+        print(f"{bcolors.OKGREEN}{game.player1.name} has won!{bcolors.ENDC}")
         return
     if at_war == False:
         end_hand()
